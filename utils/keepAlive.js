@@ -39,7 +39,8 @@ const keepAlive = () => {
         throw new Error('KEEP_ALIVE_URL is not defined in environment variables.');
     }
 
-    cron.schedule('*/1 * * * *', async () => {
+    // Scheduled cron job for ever 10 minute 
+    cron.schedule('*/10 * * * *', async () => {
         try {
             const response = await axios.get(url); // Use axios for the GET request
             logger(`Keep-alive request successfully sent to ${url}`, 'INFO');

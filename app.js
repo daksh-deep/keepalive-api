@@ -12,13 +12,13 @@ createDirectoryIfNotExists();
 
 // Health Check Route
 app.get('/health', (req, res) => {
-    logger('Received a keep-alive request', 'INFO');
-    res.status(200).json({message: "Keep-alive request received"});
+    logger('Keep-alive request - Received', 'KEEP ALIVE');
+    res.status(200).json({ message: "Keep-alive request received" });
 });
 
 // Handle 404 for undefined routes
-app.use((req, res) => {
-    res.status(404).json({message: 'Not Found'}, {status: "404"});
+app.get('*', (req, res) => {
+    res.status(404).json({message: 'Page Not Found (404)'});
 });
 
 // Cron Job

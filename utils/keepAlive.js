@@ -43,7 +43,7 @@ const keepAlive = () => {
     cron.schedule('*/10 * * * *', async () => {
         try {
             const response = await axios.get(url); // Use axios for the GET request
-            logger(`Keep-alive request successfully sent to ${url}`, 'INFO');
+            logger(`Keep-alive request - Sent - ${url}`, 'KEEP ALIVE');
         } catch (err) {
             logger(`Keep-alive request failed: ${err.message}`, 'ERROR');
         }

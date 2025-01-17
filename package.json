@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "app": "node app.js"
+    "app": "node app.js",
+    "dev": "npx nodemon"
   },
   "keywords": [],
   "author": "",

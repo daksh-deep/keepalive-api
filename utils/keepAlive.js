@@ -41,8 +41,8 @@ const keepAlive = () => {
 
     // Scheduled cron job for every 10 minutes
     cron.schedule('*/10 * * * *', async () => {
-        const maxRetries = 3; // Maximum number of retries
-        const retryDelay = 70000; // Delay between retries in milliseconds
+        const maxRetries = process.env.MAX_RETRY; // Maximum number of retries
+        const retryDelay = process.env.RETRY_DELAY; // Delay between retries in milliseconds
 
         let retries = 0;
 

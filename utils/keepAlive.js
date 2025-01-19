@@ -39,15 +39,31 @@ const keepAlive = () => {
         throw new Error('KEEP_ALIVE_URL is not defined in environment variables.');
     }
 
-    // Scheduled cron job for ever 10 minute 
+    // Scheduled cron job for every 10 minutes
     cron.schedule('*/10 * * * *', async () => {
-        try {
-            const response = await axios.get(url); // Use axios for the GET request
-            logger(`Keep-alive request - Sent - ${url}`, 'KEEP ALIVE');
-        } catch (err) {
-            logger(`Keep-alive request failed: ${err.message}`, 'ERROR');
+        const maxRetries = 3; // Maximum number of retries
+        const retryDelay = 70000; // Delay between retries in milliseconds
+
+        let retries = 0;
+
+        while (retries < maxRetries) {
+            try {
+                const response = await axios.get(url); // Send keep-alive request
+                logger(`Keep-alive request - Sent successfully - ${url}`, 'KEEP ALIVE');
+                break; // Exit retry loop on success
+            } catch (err) {
+                retries++;
+                logger(`Keep-alive request failed: ${err.message}. Retry ${retries}/${maxRetries}`, 'ERROR');
+                if (retries === maxRetries) {
+                    logger(`Max retries reached. Keep-alive request failed permanently for ${url}`, 'ERROR');
+                } else {
+                    // Wait before retrying
+                    await new Promise((resolve) => setTimeout(resolve, retryDelay));
+                }
+            }
         }
     });
 };
 
 module.exports = keepAlive;
+
